@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block body %}
+<div class="post">
+  created:{{post.created_date}}
+  {% if user.is_authenticated %}
+  <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+  <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+  <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}">Delete</a>
+  {% endif %}
+  <h2><a href="">{{post.title}}</a></h2>
+  {{post.descrip}}
+  <br/>
+  <h3>Comments:</h3>
+  <a href="{% url 'comment_new' pk=post.pk %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+
+  {% for c in post.comments.all %}
+  <div class=comment>
+  <b>{{ c.author }}</b><br/>
+  {{ c.created_date }}<br/>
+  {{  c.desc }}<br/>
+  {% empty %}
+  <p>No comments Yet!</p>
+  {% endfor %}
+  </div>
+  <hr><br/>
+</div>
+{% endblock %}
